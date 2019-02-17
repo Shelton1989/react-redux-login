@@ -23,8 +23,8 @@ const LoginForm = (props)=>{
             <p className="login-form-text">Forgot your login details? <a href="http://localhost:3000">Click here</a></p>
             <button className="btn button-color" style={{width: '100%', marginTop: '2rem'}} type="submit">LOGIN</button>
         </form>
-    )
-}
+    );
+};
 
 class Login extends Component {
     render(props){
@@ -38,8 +38,8 @@ class Login extends Component {
                     handleChange={this.props.handleChange}
                 />
             </div>
-        )
-    }
-}
+        );
+    };
+};
 
 export default Login;

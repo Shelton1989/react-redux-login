@@ -7,7 +7,7 @@ const Footer = ()=>{
                 <p className="footer">&copy; Shelton Wilson 2019</p>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Footer;

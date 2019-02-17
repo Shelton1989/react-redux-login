@@ -10,8 +10,8 @@ class Notification extends Component {
         } else {
             document.getElementById('popup-wrapper').classList.remove("visible");
             document.getElementById('popup-wrapper').classList.add("hidden");
-        }
-    }
+        };
+    };
     render(props){
         return(
             <div id="popup-wrapper" className="hidden">
@@ -21,8 +21,8 @@ class Notification extends Component {
                     <button id="popup-action" className="btn button-color" onClick={this.handleClick}>{this.props.buttonText}</button>
                 </div>
             </div>
-        )
-    }
+        );
+    };
 };
 
 export default Notification;

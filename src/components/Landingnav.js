@@ -14,7 +14,7 @@ const LandingNav = ()=>{
                     </ul>
             </div>
         </div>
-    )
+    );
 };
 
 export default LandingNav;
