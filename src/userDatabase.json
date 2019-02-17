@@ -1,0 +1,18 @@
+{
+    "user1": {
+        "username": "ROBERT",
+        "password": "Stormsend"
+    },
+    "user2": {
+        "username": "NED",
+        "password": "Winterfell"
+    },
+    "user3": {
+        "username": "TYWIN",
+        "password": "CasterlyRock"
+    },
+    "user4": {
+        "username": "JON",
+        "password": "Eyrie"
+    }
+}
