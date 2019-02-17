@@ -37,13 +37,13 @@ const userDatabase = {
 
 // Mock API call with delay
 async function apiCall(time=1500) {
-  await new Promise(resolve => setTimeout(resolve, time))
-}
+  await new Promise(resolve => setTimeout(resolve, time));
+};
 const database = async ()=>{
   let data = userDatabase;
   await apiCall();
   return data;
-}
+};
 
 //Application
 class App extends Component {
@@ -73,18 +73,17 @@ class App extends Component {
   debounce = async ()=>{
       this.setState({
           cooldown: 30,
-      })
+      });
       let timer = setInterval(()=>{
-          let cooldown = this.state.cooldown - 1
+          let cooldown = this.state.cooldown - 1;
           this.setState({
               cooldown: cooldown
-          })
-          console.log(cooldown)
-      },1000)
-      await new Promise(resolve=>setTimeout(resolve, 30000))
-      clearInterval(timer)
+          });
+      },1000);
+      await new Promise(resolve=>setTimeout(resolve, 30000));
+      clearInterval(timer);
       return 0
-  }
+  };
    //Set inputs for authentication and session
   handlePassword(e) {
       this.setState({
@@ -100,10 +99,12 @@ class App extends Component {
       if(e.target.checked){
           this.setState({
               remember: true,
-          })
+          });
       } else {
-          return
-      } 
+          this.setState({
+            remember: false,
+          });
+      };
   };
   /*  1) Form handles multiple login attempts and debounces after 3 failed attempts.
       2) Handles muliple cases like no username and password provided, username provided with no password and vice versa.
@@ -118,9 +119,9 @@ class App extends Component {
               this.setState({
                   passwordValid: true,
                   usernameValid: true,
-              })
-          }
-      }
+              });
+          };
+      };
       if (LoginAttemptCounter <= 1) {
           if (this.state.usernameValid && this.state.passwordValid && (this.state.cooldown === 0)) {
               this.setState({
@@ -165,7 +166,7 @@ class App extends Component {
               });
               document.getElementById('popup-wrapper').classList.add("visible");
               document.getElementById('popup-wrapper').classList.remove("hidden");
-          } 
+          };
       } else if (LoginAttemptCounter === 2) {
           console.log(LoginAttemptCounter)
           if (this.state.usernameValid && this.state.passwordValid && (this.state.cooldown === 0)) {
@@ -211,7 +212,7 @@ class App extends Component {
               });
               document.getElementById('popup-wrapper').classList.add("visible");
               document.getElementById('popup-wrapper').classList.remove("hidden");
-          }
+          };
       } else if (LoginAttemptCounter === 3) {
           console.log(LoginAttemptCounter)
           if (this.state.usernameValid && this.state.passwordValid && (this.state.cooldown === 0)) {
@@ -257,7 +258,7 @@ class App extends Component {
               });
               document.getElementById('popup-wrapper').classList.add("visible");
               document.getElementById('popup-wrapper').classList.remove("hidden");
-          }
+          };
       } else {
           document.getElementById('popup-wrapper').classList.add("visible");
           document.getElementById('popup-wrapper').classList.remove("hidden");
@@ -276,7 +277,7 @@ class App extends Component {
           console.log(countdown, LoginAttemptCounter)
           LoginAttemptCounter = 0;
           document.getElementById('popup-action').disabled = false;
-      }
+      };
   };
   //Render method with nested child components and passed state to props.
   render() {
@@ -299,7 +300,7 @@ class App extends Component {
         <Footer />
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;
