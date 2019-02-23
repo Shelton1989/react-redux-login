@@ -1,28 +1,72 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 //Constants
 
 class Notification extends Component {
     handleClick = this.handleClick.bind(this);
-    handleClick(props){
-        if(this.props.authenticated) {
-            alert('You are logged in. There is nothing more to do except hire Shelton :). Alternatively, refresh the browser.')
+    handleClick(){
+        if(this.props.auth.authenticated) {
+            alert(
+                `The dashboard has packed a case and moved to Mars with Elon. 
+                Rather refresh the browser and try some other users.`
+            );
         } else {
             document.getElementById('popup-wrapper').classList.remove("visible");
             document.getElementById('popup-wrapper').classList.add("hidden");
         };
     };
-    render(props){
+    render(){
+        let {notification, attempt} = this.props;
         return(
             <div id="popup-wrapper" className="hidden">
                 <div id="information-popup" className="pop-up">
-                    <h4 id="popup-title" style={{color:this.props.responseColor ,textAlign: 'center'}}>{this.props.response}</h4>
-                    <p id="popup-message">{this.props.message}</p>
-                    <button id="popup-action" className="btn button-color" onClick={this.handleClick}>{this.props.buttonText}</button>
+                    <Typography
+                        id="popup-title"
+                        variant="h3" 
+                        style={{
+                            textAlign: 'center', 
+                            marginBottom: '2rem'
+                        }}
+                    >
+                        {notification.response}
+                    </Typography>
+                    {
+                        attempt.cooldown !== 0 ? 
+                        <Typography
+                            id="popup-message"
+                            variant="body1" 
+                        >
+                            {notification.message} Please wait {attempt.cooldown} Seconds. Then try again.
+                        </Typography>
+                        :
+                        <Typography
+                            id="popup-message"
+                            variant="body1" 
+                        >
+                            {notification.message}
+                        </Typography>
+                    }
+                    <Button 
+                        id='popup-action'
+                        variant='contained'
+                        color='primary'
+                        style={{width:'100%', marginTop: '2rem'}}
+                        onClick={this.handleClick}
+                        disabled={attempt.cooldown!==0?true:false}
+                    >CONTINUE</Button>
                 </div>
             </div>
         );
     };
 };
 
-export default Notification;
+const mapStateToProps = state =>({
+    auth: state.auth,
+    attempt: state.attempt,
+    notification: state.notification
+});
+
+export default connect(mapStateToProps)(Notification);

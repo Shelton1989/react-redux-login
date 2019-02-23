@@ -1,5 +1,5 @@
 .App-wrapper {
-    background: url('http://storage.googleapis.com/shelton/resources/landingpage.jpg');
+    background: url('http://storage.googleapis.com/shelton/4sure/coverbackground.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(25px + 2vmin);
     color: white;
 }
 #landingnav {
@@ -20,13 +20,13 @@
     left: 0;
 }
 .logo {
-    width: 200px;
+    width: 50px;
     a {
         display: flex;
         margin: auto;
         width: 100%;
         height: 100%;
-        background: url('http://storage.googleapis.com/shelton/resources/navlogowhite.png');
+        background: url('http://storage.googleapis.com/shelton/4sure/sw-logowhite.png');
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
@@ -62,20 +62,29 @@
     font-size: 0.95rem;
 }
 #Login {
-    padding: 5vmin;
+    padding: 4vmin;
     background: rgba(255, 255, 255,1);
 }
 @media only screen and (min-width: 650px) {
+    .pop-up {
+        width: 40vmin;
+    }
     #Login {
         width: 40vmin;
     }
 }
 @media only screen and (min-width: 420px) and (max-width: 650px) {
+    .pop-up {
+        width: 60vmin;
+    }
     #Login {
         width: 60vmin;
     }
 }
 @media only screen and (max-width: 420px) {
+    .pop-up {
+        width: 80vmin;
+    }
     #Login {
         width: 80vmin;
     }
@@ -111,8 +120,8 @@
     flex-direction: column;
     padding: 2.5rem;
     background-color: white;
-    max-width: 20%;
     transition: 0.2s ease;
+    z-index: 1;
 }
 #popup-wrapper {
     position: absolute;
@@ -138,4 +147,29 @@
 #popup-message {
     font-size: 0.95rem;
     color: #454545;
+}
+#popup-counter {
+    font-size: 0.95rem;
+    color: #454545;
+}
+.form-logo {
+    width: 100px;
+    a {
+        display: flex;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        background: url('http://storage.googleapis.com/shelton/4sure/sw-logo.png');
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        .logo-placeholder{
+            position: relative;
+            top: -1000px;
+            left: -1000px;
+        }
+    }
+}
+li {
+    list-style: none;
 }
