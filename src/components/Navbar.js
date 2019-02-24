@@ -8,7 +8,7 @@ const Navbar = ()=>{
         <div id="landingnav">
             <div className="nav-wrapper nav-wrap">
                 <div className="logo">
-                    <a className="brand-logo " href="http://localhost:3000">
+                    <a className="brand-logo " href="./index.html">
                         <span className="logo-placeholder">
                             LOGO
                         </span>

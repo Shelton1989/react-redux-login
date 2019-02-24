@@ -65,9 +65,9 @@ const LoginForm = (props)=>{
             >
                 Forgot your login details? 
                 <Link 
-                    href="http://localhost:3000">
-                        Click here
-                    </Link>
+                    href="./index.html">
+                     Click here
+                </Link>
             </Typography>
             <Button 
                 id='button'
@@ -215,7 +215,7 @@ class Login extends Component {
             <div id="Login">
                 <div className="logo-wrapper">
                     <div className="form-logo">
-                        <a className="brand-logo " href="http://localhost:3000">
+                        <a className="brand-logo " href="./index.html">
                             <span className="logo-placeholder">
                                 LOGO
                             </span>
