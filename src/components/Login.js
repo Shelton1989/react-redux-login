@@ -5,6 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //Actions
 import {
@@ -14,6 +15,9 @@ import {
     failedAttempt,
     successfulLogin,
     unsuccessfulLogin,
+    showNotification,
+    loading,
+    loadingComplete,
 } from '../actions/authenticate-actions';
 
 //API
@@ -48,7 +52,7 @@ const LoginForm = (props)=>{
                 style={{width: '100%'}}
             />
             <Typography
-                variant="subheading"
+                variant="body1"
             >
                 <Checkbox 
                     color="primary"
@@ -71,7 +75,10 @@ const LoginForm = (props)=>{
                 color='primary'
                 style={{width:'100%', marginTop: '2rem'}}
                 type='submit'
-            >LOGIN</Button>
+                disabled={props.loading}
+            >
+            {props.loading?<CircularProgress size={24} color="primary" />:'LOGIN'}
+            </Button>
         </form>
     );
 };
@@ -83,7 +90,7 @@ class Login extends Component {
         let cooldownTimer = 30;
         attempt = 0;
         let timer = setInterval(()=>{
-            cooldownTimer = cooldownTimer - 1
+            cooldownTimer = cooldownTimer - 1;
             onLoginAttempt(attempt, cooldownTimer);
         },1000);
         await new Promise(resolve=>setTimeout(resolve, 30000));
@@ -97,9 +104,14 @@ class Login extends Component {
             onLoginAttempt, 
             onSuccessful, 
             onUnsuccessful, 
-            username
+            username,
+            onOpenNotification,
+            handleNotify,
+            onLoading,
+            onLoadingDone
         } = this.props;
         e.preventDefault();
+        onLoading();
         let data = await database();
         let passwordInput = document.getElementById('password').value;
         let usernameInput = document.getElementById('username').value;
@@ -118,7 +130,9 @@ class Login extends Component {
             countdown = 0;
             onLoginAttempt(attempt, countdown);
             onSuccessful(response, message);
-            document.getElementById('popup-wrapper').classList.add("visible");
+            onLoadingDone();
+            onOpenNotification();
+            handleNotify();
         }else if ((passwordInput === '') && (usernameInput === '')) {
             const response = 'Hey!';
             const message = `Please provide your log in details so we can 
@@ -126,7 +140,9 @@ class Login extends Component {
             countdown = 0;
             onLoginAttempt(attempt, countdown);
             onUnsuccessful(response, message);
-            document.getElementById('popup-wrapper').classList.add("visible");
+            onLoadingDone();
+            onOpenNotification();
+            handleNotify();
         } else if ((passwordInput === '') && (usernameInput !== '')) {
             const response = 'Sorry';
             const message = `You didn't provide your password so we can't 
@@ -134,7 +150,9 @@ class Login extends Component {
             countdown = 0;
             onLoginAttempt(attempt, countdown);
             onUnsuccessful(response, message);
-            document.getElementById('popup-wrapper').classList.add("visible");
+            onLoadingDone();
+            onOpenNotification();
+            handleNotify();
         } else if ((passwordInput !== '') && (usernameInput === '')) {
             const response = 'Sorry';
             const message = `We need to put a name to the face. Please try 
@@ -142,14 +160,18 @@ class Login extends Component {
             countdown = 0;
             onLoginAttempt(attempt, countdown);
             onUnsuccessful(response, message);
-            document.getElementById('popup-wrapper').classList.add("visible");
+            onLoadingDone();
+            onOpenNotification();
+            handleNotify();
         } else if (attempt <= 3){
             if (attempt === 3){
                 const response = 'Please slow down';
                 const message = `You have one more try remaining before we 
                 lock you down for 30 seconds. We take security very seriously.`;
                 onUnsuccessful(response, message);
-                document.getElementById('popup-wrapper').classList.add("visible");
+                onLoadingDone();
+                onOpenNotification();
+                handleNotify();
                 onLoginAttempt(attempt, countdown);
                 countdown = attempt * 10;
                 attempt++;
@@ -158,7 +180,9 @@ class Login extends Component {
                 const message = `We are having some trouble authenticating you. 
                 Please make sure your log in details are correct then try again.`;
                 onUnsuccessful(response, message);
-                document.getElementById('popup-wrapper').classList.add("visible");
+                onLoadingDone();
+                onOpenNotification();
+                handleNotify();
                 onLoginAttempt(attempt, countdown);
                 attempt++;
             };
@@ -167,7 +191,9 @@ class Login extends Component {
             const response = 'Locked';
             let message = `You have been locked out.`;
             onUnsuccessful(response, message);
-            document.getElementById('popup-wrapper').classList.add("visible");
+            onLoadingDone();
+            onOpenNotification();
+            handleNotify();
             countdown = 0;
             attempt = await this.debounce();
             onLoginAttempt(attempt, countdown);
@@ -182,9 +208,9 @@ class Login extends Component {
     render(){
         let {
             handleChange,
-            handleUsername
+            handleUsername,
+            loading,
         } = this.props;
-        //<img className="form-logo" src={logo} alt=""/>
         return(
             <div id="Login">
                 <div className="logo-wrapper">
@@ -200,6 +226,7 @@ class Login extends Component {
                     handleAuth={this.handleAuth}
                     handleChange={handleChange}
                     handleUsername={handleUsername}
+                    loading={loading.loading}
                 />
             </div>
         );
@@ -210,7 +237,8 @@ const mapStateToProps = state =>({
     username: state.username,
     auth: state.auth,
     remember: state.remember,
-    attempt: state.attempt
+    attempt: state.attempt,
+    loading: state.loading,
 });
 
 const mapActionsToProps = {
@@ -220,9 +248,12 @@ const mapActionsToProps = {
     onLoginAttempt: failedAttempt,
     onSuccessful: successfulLogin,
     onUnsuccessful: unsuccessfulLogin,
+    onOpenNotification: showNotification, 
+    onLoading: loading,
+    onLoadingDone: loadingComplete,
 };
 
 export default connect(
         mapStateToProps, 
-        mapActionsToProps
+        mapActionsToProps,
     )(Login);

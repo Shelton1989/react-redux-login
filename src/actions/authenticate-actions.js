@@ -7,6 +7,10 @@ export const UPDATEUSERNAME = 'UPDATEUSERNAME';
 export const FAILEDATTEMPT = 'FAILEDATTEMPT';
 export const LOGINSUCCESSFUL = 'LOGINSUCCESSFUL';
 export const LOGINUNSUCCESSFUL = 'LOGINUNSUCCESSFUL';
+export const HIDDEN = 'HIDDEN';
+export const NOTHIDDEN = 'NOTHIDDEN';
+export const LOADING = 'LOADING';
+export const LOADINGCOMPLETE = 'LOADINGCOMPLETE';
 
 export function loginAction(){
     return{
@@ -79,6 +83,42 @@ export function unsuccessfulLogin(response, message){
         newState: {
             response: response,
             message: message,
+        },
+    };
+};
+
+export function showNotification(){
+    return{
+        type: NOTHIDDEN,
+        newState: {
+            visible: true,
+        },
+    };
+};
+
+export function closeNotification(){
+    return{
+        type: HIDDEN,
+        newState: {
+            visible: false,
+        },
+    };
+};
+
+export function loading(){
+    return{
+        type: LOADING,
+        newState: {
+            loading: true,
+        },
+    };
+};
+
+export function loadingComplete(){
+    return{
+        type: LOADINGCOMPLETE,
+        newState: {
+            loading: false,
         },
     };
 };

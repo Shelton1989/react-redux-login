@@ -3,19 +3,22 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import {
+    closeNotification,
+} from '../actions/authenticate-actions';
+
 //Constants
 
 class Notification extends Component {
-    handleClick = this.handleClick.bind(this);
-    handleClick(){
+    handleClick = async ()=>{
         if(this.props.auth.authenticated) {
             alert(
                 `The dashboard has packed a case and moved to Mars with Elon. 
                 Rather refresh the browser and try some other users.`
             );
         } else {
-            document.getElementById('popup-wrapper').classList.remove("visible");
-            document.getElementById('popup-wrapper').classList.add("hidden");
+            await this.props.onCloseNotification();
+            this.props.handleNotify();
         };
     };
     render(){
@@ -66,7 +69,15 @@ class Notification extends Component {
 const mapStateToProps = state =>({
     auth: state.auth,
     attempt: state.attempt,
-    notification: state.notification
+    notification: state.notification,
+    notify: state.notify
 });
 
-export default connect(mapStateToProps)(Notification);
+const mapActionsToProps = {
+    onCloseNotification: closeNotification,
+};
+
+export default connect(
+    mapStateToProps, 
+    mapActionsToProps
+)(Notification);

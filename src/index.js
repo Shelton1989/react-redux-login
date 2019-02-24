@@ -16,6 +16,8 @@ import rememberReducer from './reducers/rememberme-reducer';
 import updateUsernameReducer from './reducers/username-reducer';
 import loginAttemptReducer from './reducers/loginattempt-reducer';
 import notificationReducer from './reducers/notification-reducer';
+import showNotificationReducer from './reducers/shownotification-reducer';
+import loadingReducer from './reducers/loading-reducer';
 import {
   loginAction, 
   logoutAction, 
@@ -25,6 +27,10 @@ import {
   failedAttempt,
   successfulLogin,
   unsuccessfulLogin,
+  showNotification,
+  closeNotification,
+  loading,
+  loadingComplete,
 } from './actions/authenticate-actions';
 
 const defaultState = {
@@ -35,7 +41,12 @@ const defaultState = {
       attempt: 0,
       cooldown: 0,
     },
-    notification: {response: '', message: ''}
+    notification: {
+      response: '', 
+      message: ''
+    },
+    notify: {visibile: false},
+    loading: {loading: false},
   };
 //Comnbine Reducers
 const allReducers = combineReducers({
@@ -44,12 +55,14 @@ const allReducers = combineReducers({
     remember: rememberReducer,
     attempt: loginAttemptReducer,
     notification: notificationReducer,
+    notify: showNotificationReducer,
+    loading: loadingReducer,
   });
 // Store
 const store = createStore(
   allReducers, 
   defaultState, 
-  window.devToolsExtension && window.devToolsExtension()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 // Dispatch
@@ -61,6 +74,10 @@ store.dispatch(updateUsername());
 store.dispatch(failedAttempt());
 store.dispatch(successfulLogin());
 store.dispatch(unsuccessfulLogin());
+store.dispatch(showNotification());
+store.dispatch(closeNotification());
+store.dispatch(loading());
+store.dispatch(loadingComplete());
 
 
 ReactDOM.render(
